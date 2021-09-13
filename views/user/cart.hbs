@@ -1,0 +1,68 @@
+<section>
+    <div class="container">
+        <table class="table mt-5">
+            <thead>
+                <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each products}}
+                <tr>
+                  
+                    <td><img style="width: 70px; height: 70px;" src="/product-images/{{this.product._id}}.jpg" alt=""></td>
+                    <td>{{this.product.Name}}</td>
+                   
+                    <td>
+                        <button style="border: 5px; width: 29px; height: 29px; border-radius: 5px; background-color:rgb(89, 160, 42); color: white;"  class="cart-item-count mr-3", onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user}}',-1)">-</button>
+                       <span id="{{this.product._id}}">{{this.quantity}}</span> 
+                       <button style="border: 5px; width: 29px; height: 29px; border-radius: 5px; background-color:rgb(89, 160, 42); color: white;"  class="cart-item-count ml-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user}}',1)">+</button>
+                    </td>
+                    <td>
+                    Rs:{{this.product.Price}}
+                    </td>
+                    <td>
+                        <a href="" class="btn btn-danger">Remove</a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <hr>
+        <h5 class="float-right mr-2 mt-4"  style=" background-color:rgb(89, 160, 42); color: white; border-radius: 5px;" >TOTAL:Rs.<span id="total">{{totalValue}}</span></h5>
+        <a href="/place-order" style="width: 200px; background-color:rgb(33, 65, 12); color: white; margin-top: 10px; margin-left: 800px;" class="float-right btn   ">Place Order</a>
+       
+       
+    </div>
+</section>
+<script>
+    function changeQuantity(cartId,proId,userId,count){
+        let quantity=parseInt(document.getElementById(proId).innerHTML)
+        count=parseInt(count)
+        console.log(userId)
+        $.ajax({
+            url:'/change-product-quantity',
+            data:{
+                user:userId,
+                cart:cartId,
+                product:proId,
+                count:count,
+                quantity:quantity
+            },
+            method:'post',
+            success:(response)=>{
+                if(response.removeProduct){
+                    alert("product Removed from cart")
+                    location.reload()
+                }else{
+                    console.log(response)
+                    document.getElementById(proId).innerHTML=quantity+count
+                    document.getElementById('total').innerHTML=response.total
+                }
+               
+            }
+        })
+    }
+</script>

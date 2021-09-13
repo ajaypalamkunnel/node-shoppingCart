@@ -1,0 +1,30 @@
+
+
+{{!-- product card --}}
+<section>
+   
+    <div class="container mt-5 ">
+        <div class="row">
+            {{!-- making cards dynamicaly --}}
+            {{#each products}}
+           
+            <div class="col-md-3 col-s-12 p-3 ">
+                <div class="card" style="width: 15rem; height:auto; border-radius: 20px; background-color:#ebead7 ; border-color: rgb(89, 160, 42);">
+                    <div style="padding-top: 15px;"><img style="height: 15rem;" class="card-img-top" src="/product-images/{{this.product._id}}.jpg" alt="Card image cap"> </div>                    <div class="card-body">
+                        <h5 style="font-size: medium;" class="card-title">{{this.Name}}</h5>
+                        <p class="card-text">Rs:{{this.product.Price}}</p>
+                        <p class="card-text">Quantity:{{this.quantity}}</p>
+                          <p class="card-text">{{this.Description}}</p>
+                        
+                       
+                        <a href="/orders" class="btn" style="background-color:rgb(89, 160, 42); color: white;" >Go to Orders</a>
+                    </div>
+                </div>
+            </div>
+           
+            {{/each}}
+
+        </div>
+    </div>
+    
+</section>
